@@ -1,5 +1,3 @@
-package web;
-
 import java.util.Set;
 
 public interface HttpRequest {

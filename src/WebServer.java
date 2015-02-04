@@ -1,4 +1,4 @@
-package web;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class WebServer extends Thread {
 
 	public static void main(String[] args) {
 		WebServer server = new WebServer(88);
-		server.start();
+		server.run();
 	}
 
 	private void log(String msg) {
