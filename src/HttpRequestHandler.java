@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.Hashtable;
 import java.util.Set;
 
@@ -8,65 +9,7 @@ import java.util.Set;
  * Only has one method which is called by the web server
  */
 
-public class HttpRequestHandler implements HttpResponse{
-	
-	String version, statusCode, description, body;
-	Hashtable<String, String> headers = new Hashtable<>();
-	
-	@Override
-	public String getVersion() {
-		return version;
-	}
-
-	@Override
-	public String getStatusCode() {
-		return statusCode;
-	}
-
-	@Override
-	public String getDescription() {
-		return description;
-	}
-
-	@Override
-	public String getHeader(String key) {
-		return headers.get(key);
-	}
-
-	@Override
-	public Set<String> getHeaderNames() {
-		return headers.keySet();
-	}
-
-	@Override
-	public String getBody() {
-		return body;
-	}
-
-	@Override
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-	@Override
-	public void setStatusCode(String statusCode) {
-		this.statusCode = statusCode;
-	}
-
-	@Override
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	@Override
-	public void setBody(String body) {
-		this.body = body;
-	}
-
-	@Override
-	public void setHeader(String key, String value) {
-		headers.put(key, value);
-	}
+public class HttpRequestHandler{
 	
 	/**
 	 * 
@@ -74,10 +17,36 @@ public class HttpRequestHandler implements HttpResponse{
 	 * @return
 	 */
     public HttpResponse handleRequest(HttpRequest request) {	
+    	HttpResponse hr = new CalcResponse();
+    	StringBuilder body = new StringBuilder();
+    	String color = "LightGrey";
+    	BigInteger z = new BigInteger("1");
+    	int x, y;
     	
+    	if (request.getPath().equals("/api/mul") || request.getPath().equals("/api/pow")) {
+    		if (request.getQuery("color") != null)
+        		color = request.getQuery("color");
+    		body.append("<html> <table bgcolor=\"" + color 
+    				+ "\"> <tr> <th>Header name</th> <th>Description</th> </tr> ");
+    		for (String key : request.getQueryNames()) {
+				body.append("<tr> <td>" + key + "</td> <td>" + request.getHeader(key) + "</td> </tr>");
+			}
+    		body.append("</table> </html>");		
+    		hr.setBody(body.toString());
+    		if(request.getMethod().equals("POST")) {
+    			request.X = 5;
+    		}
+    	}
+    	else {
+    		hr.setStatusCode("404");
+    		hr.setDescription("Not Found");
+    		hr.setVersion(request.getVersion());
+    		hr.setHeader("Content-length", "0");
+    		hr.setHeader("Content-type", "type/html");
+    	}
     
     
-    
+    	return hr;
     }
 
 	

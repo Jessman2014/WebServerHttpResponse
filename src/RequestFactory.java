@@ -8,74 +8,9 @@
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Hashtable;
 import java.util.Scanner;
-import java.util.Set;
 
-public class RequestFactory implements HttpRequest{
-		String method, version, path;
-		Hashtable<String, String> queries = new Hashtable<>();
-		Hashtable<String, String> headers = new Hashtable<>();
-		
-		@Override
-		public void setMethod(String method) {
-			this.method = method;
-		}
-
-		@Override
-		public void setVersion(String version) {
-			this.version = version;
-		}
-
-		@Override
-		public void setPath(String path) {
-			this.path = path;
-		}
-
-		@Override
-		public void setQuery(String key, String value) {
-			queries.put(key, value);
-		}
-
-		@Override
-		public void setHeader(String key, String value) {
-			headers.put(key, value);
-		}
-
-		@Override
-		public String getMethod() {
-			return method;
-		}
-
-		@Override
-		public String getVersion() {
-			return version;
-		}
-
-		@Override
-		public String getPath() {
-			return path;
-		}
-
-		@Override
-		public String getHeader(String key) {
-			return headers.get(key);
-		}
-
-		@Override
-		public Set<String> getHeaderNames() {
-			return headers.keySet();
-		}
-
-		@Override
-		public String getQuery(String key) {
-			return queries.get(key);
-		}
-
-		@Override
-		public Set<String> getQueryNames() {
-			return queries.keySet();
-		}
+public class RequestFactory{
 	
 	/**
 	 * Reads lines from the buffered reader and splits them up into their respective parts
@@ -86,7 +21,7 @@ public class RequestFactory implements HttpRequest{
 	 * 				to the web server
 	 */
 	public static HttpRequest createRequest(BufferedReader input) throws IOException {
-    	HttpRequest hr = new RequestFactory();
+    	HttpRequest hr = new StandardRequest();
     	String line = input.readLine();
     	//while (line != null) {
     		Scanner scan = new Scanner(line);

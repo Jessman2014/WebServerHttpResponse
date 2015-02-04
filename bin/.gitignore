@@ -3,3 +3,5 @@
 /HttpResponse.class
 /RequestFactory.class
 /WebServer.class
+/StandardRequest.class
+/CalcResponse.class
