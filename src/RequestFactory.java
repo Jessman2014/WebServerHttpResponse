@@ -39,12 +39,14 @@ public class RequestFactory{
     			}
     			sc.close();
     		}
-    		hr.setVersion(scan.next());
+    		String[] version = scan.next().split("[/]");
+    		hr.setVersion(version[0] + ":/" + version[1]);
     		line = input.readLine();
     		//repeats for each header
     		while(!line.equals("")) {
     			scan = new Scanner(line);
     			String key = scan.next();
+    			key = key.substring(0, key.length()-1);
     			hr.setHeader(key, scan.next());
     			line = input.readLine();
     		}

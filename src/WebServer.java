@@ -65,6 +65,7 @@ public class WebServer extends Thread {
 							throw new Exception("factory failed to make a valid web request");
 						} else {
 							HttpResponse response = new HttpRequestHandler().handleRequest(request);
+							String responseStr = response.toString();
 							connection.getOutputStream().write(response.toString().getBytes());
 							connection.close();
 						}

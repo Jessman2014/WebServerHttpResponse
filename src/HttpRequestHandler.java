@@ -1,6 +1,4 @@
 import java.math.BigInteger;
-import java.util.Hashtable;
-import java.util.Set;
 
 /**
  * @author Jesse Dahir-Kanehl
@@ -19,34 +17,64 @@ public class HttpRequestHandler{
     public HttpResponse handleRequest(HttpRequest request) {	
     	HttpResponse hr = new CalcResponse();
     	StringBuilder body = new StringBuilder();
-    	String color = "LightGrey";
-    	BigInteger z = new BigInteger("1");
-    	int x, y;
+    	
+    	String color = request.getQuery("color");
+    	BigInteger x, y, z;
+    	
+    	hr.setVersion(request.getVersion());
     	
     	if (request.getPath().equals("/api/mul") || request.getPath().equals("/api/pow")) {
-    		if (request.getQuery("color") != null)
-        		color = request.getQuery("color");
-    		body.append("<html> <table bgcolor=\"" + color 
+    		body.append(" <table bgcolor=\"" + color 
     				+ "\"> <tr> <th>Header name</th> <th>Description</th> </tr> ");
-    		for (String key : request.getQueryNames()) {
+    		for (String key : request.getHeaderNames()) {
 				body.append("<tr> <td>" + key + "</td> <td>" + request.getHeader(key) + "</td> </tr>");
 			}
-    		body.append("</table> </html>");		
+    		body.append("</table> <div>");
+    		if (request.getPath().equals("/api/mul")) {
+    			if (request.getQuery("x") == null)
+    				x = BigInteger.valueOf(StandardRequest.DEF_MUL_X);
+    			else
+    				x = new BigInteger(request.getQuery("x"));
+    			if (request.getQuery("y") == null)
+    				y = BigInteger.valueOf(StandardRequest.DEF_MUL_Y);
+    			else
+    				y = new BigInteger(request.getQuery("y"));
+    			z = x.multiply(y);
+    			body.append(x + " x " + y + " = " + z);
+    		}
+    		else {
+    			if (request.getQuery("x") == null)
+    				x = BigInteger.valueOf(StandardRequest.DEF_POW_X);
+    			else
+    				x = new BigInteger(request.getQuery("x"));
+    			if (request.getQuery("y") == null)
+    				y = BigInteger.valueOf(StandardRequest.DEF_POW_Y);
+    			else
+    				y = new BigInteger(request.getQuery("y"));
+    			z = x.pow(y.intValue());
+    			body.append(x + "<sup>" + y + "</sup> = " + z);
+    		}
+    		body.append("</div>");
     		hr.setBody(body.toString());
+    		hr.setStatusCode("200");
+    		hr.setDescription("OK");
+    		hr.setHeader("Content-type", "type/html");
+    		hr.setHeader("Content-length", "" + body.length());
     		if(request.getMethod().equals("POST")) {
-    			request.X = 5;
+    			StandardRequest.DEF_MUL_X = x.longValue();
+    			StandardRequest.DEF_MUL_Y = y.longValue();
+    			StandardRequest.DEF_POW_X = x.longValue();
+    			StandardRequest.DEF_POW_Y = y.longValue();
     		}
     	}
     	else {
     		hr.setStatusCode("404");
     		hr.setDescription("Not Found");
-    		hr.setVersion(request.getVersion());
     		hr.setHeader("Content-length", "0");
-    		hr.setHeader("Content-type", "type/html");
+    		hr.setHeader("Content-type", "type/plain");
     	}
-    
-    
     	return hr;
+    	
     }
 
 	

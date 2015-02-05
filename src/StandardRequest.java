@@ -10,7 +10,11 @@ public class StandardRequest implements HttpRequest {
 	Hashtable<String, String> queries = new Hashtable<>();
 	Hashtable<String, String> headers = new Hashtable<>();
 	private static final String DEF_COLOR = "LightGrey";
-	public static final int X = 1;
+	public static long DEF_MUL_X = 1, DEF_MUL_Y = 1, DEF_POW_X = 2, DEF_POW_Y = 0;
+	
+	public StandardRequest() {
+		queries.put("color", DEF_COLOR);
+	}
 	
 	@Override
 	public void setMethod(String method) {

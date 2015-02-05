@@ -10,7 +10,6 @@ public class CalcResponse implements HttpResponse {
 	String version, statusCode, description, body;
 	Hashtable<String, String> headers = new Hashtable<>();
 	
-	
 	@Override
 	public String getVersion() {
 		return version;
@@ -64,6 +63,12 @@ public class CalcResponse implements HttpResponse {
 	@Override
 	public void setHeader(String key, String value) {
 		headers.put(key, value);
+	}
+	
+	@Override
+	public String toString() {
+		String rawResponse = "<html>" +  version + " " + statusCode + " " + description + "\n" + body + "</html>";
+		return rawResponse;
 	}
 
 }
