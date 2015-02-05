@@ -67,8 +67,13 @@ public class CalcResponse implements HttpResponse {
 	
 	@Override
 	public String toString() {
-		String rawResponse = "<html>" +  version + " " + statusCode + " " + description + "\n" + body + "</html>";
-		return rawResponse;
+		StringBuilder raw = new StringBuilder();
+		raw.append(version + " " + statusCode + " " + description + "\n"); 
+		for (String key : headers.keySet()) {
+			raw.append(key + ": " + headers.get(key) + "\n");
+		}
+		raw.append("\n" + body);
+		return raw.toString();
 	}
 
 }

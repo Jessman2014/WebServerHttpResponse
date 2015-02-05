@@ -22,14 +22,14 @@ public class HttpRequestHandler{
     	BigInteger x, y, z;
     	
     	hr.setVersion(request.getVersion());
-    	
+    	hr.setHeader("Access-Control-Allow-Origin", "*");
     	if (request.getPath().equals("/api/mul") || request.getPath().equals("/api/pow")) {
-    		body.append(" <table bgcolor=\"" + color 
-    				+ "\"> <tr> <th>Header name</th> <th>Description</th> </tr> ");
+    		body.append("<!DOCTYPE html>\n <body>\n <table bgcolor=\"" + color 
+    				+ "\">\n <tr>\n <th>Header name</th>\n <th>Description</th>\n </tr> ");
     		for (String key : request.getHeaderNames()) {
-				body.append("<tr> <td>" + key + "</td> <td>" + request.getHeader(key) + "</td> </tr>");
+				body.append("\n<tr>\n <td>" + key + "</td>\n <td>" + request.getHeader(key) + "</td>\n </tr>");
 			}
-    		body.append("</table> <div>");
+    		body.append("\n</table> \n<div>");
     		if (request.getPath().equals("/api/mul")) {
     			if (request.getQuery("x") == null)
     				x = BigInteger.valueOf(StandardRequest.DEF_MUL_X);
@@ -54,7 +54,7 @@ public class HttpRequestHandler{
     			z = x.pow(y.intValue());
     			body.append(x + "<sup>" + y + "</sup> = " + z);
     		}
-    		body.append("</div>");
+    		body.append("\n</div>\n</html>");
     		hr.setBody(body.toString());
     		hr.setStatusCode("200");
     		hr.setDescription("OK");
