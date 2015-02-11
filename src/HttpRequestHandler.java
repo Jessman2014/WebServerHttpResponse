@@ -24,7 +24,7 @@ public class HttpRequestHandler{
     	hr.setVersion(request.getVersion());
     	hr.setHeader("Access-Control-Allow-Origin", "*");
     	if (request.getPath().equals("/api/mul") || request.getPath().equals("/api/pow")) {
-    		body.append("<!DOCTYPE html>\n <body>\n <table bgcolor=\"" + color 
+    		body.append("<!DOCTYPE html>\n <body>\n <table style=\"background-color: " + color 
     				+ "\">\n <tr>\n <th>Header name</th>\n <th>Description</th>\n </tr> ");
     		for (String key : request.getHeaderNames()) {
 				body.append("\n<tr>\n <td>" + key + "</td>\n <td>" + request.getHeader(key) + "</td>\n </tr>");
