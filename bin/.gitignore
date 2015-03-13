@@ -1,7 +1,7 @@
+/CalcResponse.class
 /HttpRequest.class
 /HttpRequestHandler.class
 /HttpResponse.class
 /RequestFactory.class
-/WebServer.class
 /StandardRequest.class
-/CalcResponse.class
+/WebServer.class
